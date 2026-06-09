@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>우정의 언어로 찾는 내 안의 보석, 미덕 카드 제작소</title>
+  
+  <!-- 1. Google Fonts에서 정식 제공하는 CookieRun 웹폰트 로드 -->
+  <link href="https://fonts.googleapis.com/css2?family=CookieRun:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- 2. Tailwind CSS 및 FontAwesome 아이콘 로드 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* 모든 요소에 쿠키런 폰트 강제 선언 (Tailwind 우선순위 무시) */
+    * {
+      font-family: 'CookieRun', sans-serif !important;
+    }
+    
+    body { background-color: #f8fafc; }
+    .card-preview {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* 20종 테마 컬러 스타일 정의 */
+    .theme-mint { background: linear-gradient(135deg, #f2f9f5 0%, #e6f4ea 100%); border-color: #a7f3d0; }
+    .theme-darknight { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border-color: #4338ca; }
+    .theme-forest { background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); border-color: #059669; }
+    .theme-sunset { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-color: #fed7aa; }
+    .theme-pink { background: linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%); border-color: #fecdd3; }
+    .theme-lavender { background: linear-gradient(135deg, #f8f5ff 0%, #f3e8ff 100%); border-color: #e9d5ff; }
+    .theme-ocean { background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); border-color: #bae6fd; }
+    .theme-lemon { background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%); border-color: #fef08a; }
+    .theme-silver { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-color: #cbd5e1; }
+    .theme-earth { background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%); border-color: #d6d3d1; }
+    
+    .theme-cyber { background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-color: #f43f5e; }
+    .theme-vintage { background: linear-gradient(135deg, #fcf8f2 0%, #f4eae1 100%); border-color: #cdb4db; }
+    .theme-matcha { background: linear-gradient(135deg, #f4f9f1 0%, #e8f5e1 100%); border-color: #a3e635; }
+    .theme-candy { background: linear-gradient(135deg, #ecfeff 0%, #fae8ff 100%); border-color: #f472b6; }
+    .theme-midnight { background: linear-gradient(135deg, #03001e 0%, #7303c0 100%); border-color: #ec4899; }
+    .theme-cream { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border-color: #e2e8f0; }
+    .theme-coral { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-color: #fb923c; }
+    .theme-shadow { background: linear-gradient(135deg, #111827 0%, #030712 100%); border-color: #374151; }
+    .theme-aurora { background: linear-gradient(135deg, #e0f2fe 0%, #fce7f3 100%); border-color: #f472b6; }
+    .theme-banana { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-color: #fde047; }
+    
+    .custom-scrollbar::-webkit-scrollbar { height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="p-4 md:p-8">
+
+  <!-- 헤더 영역 -->
+  <header class="text-center mb-8">
+    <div class="inline-block bg-white px-6 py-3 rounded-full shadow-sm border border-gray-100">
+      <span class="text-2xl">🔮</span>
+      <h1 class="inline text-xl text-gray-800 ml-2 font-bold">내 안의 보석 카드 제작소</h1>
+      <span class="ml-3 bg-pink-100 text-pink-600 text-xs font-bold px-2.5 py-1 rounded-full border border-pink-200">❤️영은샘과 함께하는 부끄러움을 아는 35%</span>
+    </div>
+  </header>
+
+  <!-- 메인 레이아웃 구문 -->
+  <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <!-- ① 좌측 컨트롤러 입력창 -->
+    <section class="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
+      <div class="border-b pb-3">
+        <h2 class="text-lg font-bold text-gray-800">✍️ 카드를 예쁘게 꾸며보아요</h2>
+        <p class="text-xs text-gray-400 mt-1">활동지에 미리 적어둔 내용을 콕콕 입력해 주세요!</p>
+      </div>
+
+      <!-- 1. 미덕 선택 -->
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <label class="block font-bold text-gray-700 text-sm">1. 나만의 보석 미덕 선택</label>
+          <span class="text-xs text-pink-500 font-semibold">24종 중 택 1</span>
+        </div>
+        <select id="virtue-select" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+          <option value="배려">💎 배려 (Caring)</option>
+          <option value="존중">💎 존중 (Respect)</option>
+          <option value="친절">💎 친절 (Kindness)</option>
+          <option value="이해">💎 이해 (Understanding)</option>
+          <option value="나눔">💎 나눔 (Generosity)</option>
+          <option value="용기">💎 용기 (Courage)</option>
+          <option value="끈기" selected>💎 끈기 (Perseverance)</option>
+          <option value="인내">💎 인내 (Patience)</option>
+          <option value="절제">💎 절제 (Self-Discipline)</option>
+          <option value="열정">💎 열정 (Enthusiasm)</option>
+          <option value="책임">💎 책임 (Responsibility)</option>
+          <option value="정직">💎 정직 (Honesty)</option>
+          <option value="신뢰">💎 신뢰 (Trustworthiness)</option>
+          <option value="성실">💎 성실 (Diligence)</option>
+          <option value="지혜">💎 지혜 (Wisdom)</option>
+          <option value="창의">💎 창의 (Creativity)</option>
+          <option value="겸손">💎 겸손 (Humility)</option>
+          <option value="유연성">💎 유연성 (Flexibility)</option>
+          <option value="협동">💎 협동 (Cooperation)</option>
+          <option value="감사">💎 감사 (Gratitude)</option>
+          <option value="정의">💎 정의 (Justice)</option>
+          <option value="관용">💎 관용 (Tolerance)</option>
+          <option value="평화">💎 평화 (Peacefulness)</option>
+          <option value="긍정">💎 긍정 (Positivity)</option>
+        </select>
+      </div>
+
+<!-- 2. 나와 닮은 캐릭터 고르기 -->
+      <div>
+        <label class="block font-bold text-gray-700 text-sm mb-2">2. 나를 표현하는 캐릭터 (직접 업로드 가능)</label>
+        
+        <div id="char-scroll-box" class="flex space-x-3 overflow-x-auto pb-3 custom-scrollbar snap-x cursor-grab active:cursor-grabbing">
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-amber-50 border-2 border-amber-400 rounded-xl p-2 w-20 text-center transition" data-char="🏠">
+            <span class="text-2xl block">🏠</span><span class="text-[10px] text-gray-600 font-medium block mt-1 truncate">집순이/집돌이</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🧐">
+            <span class="text-2xl block">🧐</span><span class="text-[10px] text-gray-500 block mt-1 truncate">프로참견러</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🫠">
+            <span class="text-2xl block">🫠</span><span class="text-[10px] text-gray-500 block mt-1 truncate">걱정인형</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="😎">
+            <span class="text-2xl block">😎</span><span class="text-[10px] text-gray-500 block mt-1 truncate">프로긍정러</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🎨">
+            <span class="text-2xl block">🎨</span><span class="text-[10px] text-gray-500 block mt-1 truncate">방구석아티스트</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🏃">
+            <span class="text-2xl block">🏃</span><span class="text-[10px] text-gray-500 block mt-1 truncate">에너자이저</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🎧">
+            <span class="text-2xl block">🎧</span><span class="text-[10px] text-gray-500 block mt-1 truncate">프로새벽러</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="📚">
+            <span class="text-2xl block">📚</span><span class="text-[10px] text-gray-500 block mt-1 truncate">활자중독자</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🧸">
+            <span class="text-2xl block">🧸</span><span class="text-[10px] text-gray-500 block mt-1 truncate">평화주의자</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🍿">
+            <span class="text-2xl block">🍿</span><span class="text-[10px] text-gray-500 block mt-1 truncate">트렌드세터</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🍰">
+            <span class="text-2xl block">🍰</span><span class="text-[10px] text-gray-500 block mt-1 truncate">디저트수집가</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="✈️">
+            <span class="text-2xl block">✈️</span><span class="text-[10px] text-gray-500 block mt-1 truncate">자유로운영혼</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="⚡">
+            <span class="text-2xl block">⚡</span><span class="text-[10px] text-gray-500 block mt-1 truncate">벼락치기대장</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🧠">
+            <span class="text-2xl block">🧠</span><span class="text-[10px] text-gray-500 block mt-1 truncate">암기괴물</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="📖">
+            <span class="text-2xl block">📖</span><span class="text-[10px] text-gray-500 block mt-1 truncate">인간나무위키</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="✍️">
+            <span class="text-2xl block">✍️</span><span class="text-[10px] text-gray-500 block mt-1 truncate">필기요정</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🫠">
+            <span class="text-2xl block">🫠</span><span class="text-[10px] text-gray-500 block mt-1 truncate">쿠쿠다스심장</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🔮">
+            <span class="text-2xl block">🔮</span><span class="text-[10px] text-gray-500 block mt-1 truncate">유리멘탈</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="👀">
+            <span class="text-2xl block">👀</span><span class="text-[10px] text-gray-500 block mt-1 truncate">눈치백단</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🔥">
+            <span class="text-2xl block">🔥</span><span class="text-[10px] text-gray-500 block mt-1 truncate">감정과몰입러</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🧚">
+            <span class="text-2xl block">🧚</span><span class="text-[10px] text-gray-500 block mt-1 truncate">공감요정</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🎉">
+            <span class="text-2xl block">🎉</span><span class="text-[10px] text-gray-500 block mt-1 truncate">분위기메이커</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="📢">
+            <span class="text-2xl block">📢</span><span class="text-[10px] text-gray-500 block mt-1 truncate">TMI발사기</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🎤">
+            <span class="text-2xl block">🎤</span><span class="text-[10px] text-gray-500 block mt-1 truncate">방구석스타</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="📱">
+            <span class="text-2xl block">📱</span><span class="text-[10px] text-gray-500 block mt-1 truncate">숏폼중독자</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🎓">
+            <span class="text-2xl block">🎓</span><span class="text-[10px] text-gray-500 block mt-1 truncate">밈박사</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="📸">
+            <span class="text-2xl block">📸</span><span class="text-[10px] text-gray-500 block mt-1 truncate">캡처수집가</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="💅">
+            <span class="text-2xl block">💅</span><span class="text-[10px] text-gray-500 block mt-1 truncate">아이돌미모</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🎧">
+            <span class="text-2xl block">🎧</span><span class="text-[10px] text-gray-500 block mt-1 truncate">느좋인간</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="❄️">
+            <span class="text-2xl block">❄️</span><span class="text-[10px] text-gray-500 block mt-1 truncate">청순인간</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="✨">
+            <span class="text-2xl block">✨</span><span class="text-[10px] text-gray-500 block mt-1 truncate">분위기장인</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🎮">
+            <span class="text-2xl block">🎮</span><span class="text-[10px] text-gray-500 block mt-1 truncate">게임고인물</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🆙">
+            <span class="text-2xl block">🆙</span><span class="text-[10px] text-gray-500 block mt-1 truncate">레벨업중독자</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="💖">
+            <span class="text-2xl block">💖</span><span class="text-[10px] text-gray-500 block mt-1 truncate">덕질장인</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🛡️">
+            <span class="text-2xl block">🛡️</span><span class="text-[10px] text-gray-500 block mt-1 truncate">최애수호대</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="👟">
+            <span class="text-2xl block">👟</span><span class="text-[10px] text-gray-500 block mt-1 truncate">챌린지장인</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="⚽">
+            <span class="text-2xl block">⚽</span><span class="text-[10px] text-gray-500 block mt-1 truncate">스포츠광인</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="💭">
+            <span class="text-2xl block">💭</span><span class="text-[10px] text-gray-500 block mt-1 truncate">장항준적 사고</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🚂">
+            <span class="text-2xl block">🚂</span><span class="text-[10px] text-gray-500 block mt-1 truncate">상상력폭주기관차</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🗣️">
+            <span class="text-2xl block">🗣️</span><span class="text-[10px] text-gray-500 block mt-1 truncate">혼잣말전문가</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🙈">
+            <span class="text-2xl block">🙈</span><span class="text-[10px] text-gray-500 block mt-1 truncate">흑역사제조기</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="📍">
+            <span class="text-2xl block">📍</span><span class="text-[10px] text-gray-500 block mt-1 truncate">인간GPS</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🐕">
+            <span class="text-2xl block">🐕</span><span class="text-[10px] text-gray-500 block mt-1 truncate">골든리트리버 인간</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🐱">
+            <span class="text-2xl block">🐱</span><span class="text-[10px] text-gray-500 block mt-1 truncate">냥냥츤데레</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🐹">
+            <span class="text-2xl block">🐹</span><span class="text-[10px] text-gray-500 block mt-1 truncate">웃상쿼카</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🐆">
+            <span class="text-2xl block">🐆</span><span class="text-[10px] text-gray-500 block mt-1 truncate">순간이동치타</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🧐">
+            <span class="text-2xl block">🧐</span><span class="text-[10px] text-gray-500 block mt-1 truncate">관찰력만렙</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🦥">
+            <span class="text-2xl block">🦥</span><span class="text-[10px] text-gray-500 block mt-1 truncate">느긋끝판왕</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="⏰">
+            <span class="text-2xl block">⏰</span><span class="text-[10px] text-gray-500 block mt-1 truncate">5분만더인간</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="❓">
+            <span class="text-2xl block">❓</span><span class="text-[10px] text-gray-500 block mt-1 truncate">질문폭격기</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🐶">
+            <span class="text-2xl block">🐶</span><span class="text-[10px] text-gray-500 block mt-1 truncate">가만못있는비글</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🐈">
+            <span class="text-2xl block">🐈</span><span class="text-[10px] text-gray-500 block mt-1 truncate">고양이수발러</span>
+          </button>
+          <button type="button" class="char-btn snap-start flex-shrink-0 bg-gray-50 hover:bg-amber-50 border-2 border-gray-200 rounded-xl p-2 w-20 text-center transition" data-char="🐕">
+            <span class="text-2xl block">🐕</span><span class="text-[10px] text-gray-500 block mt-1 truncate">댕댕이수발러</span>
+          </button>
+        </div>
+
+        <!-- 이미지 업로드 -->
+        <div class="flex items-center space-x-3 bg-gray-50 p-3 rounded-xl border border-gray-200 mt-3">
+          <label for="image-upload" class="cursor-pointer bg-amber-400 hover:bg-amber-500 text-white text-xs font-bold py-2.5 px-4 rounded-lg shadow-sm transition flex items-center space-x-1.5 flex-shrink-0">
+            <i class="fa-solid fa-camera"></i>
+            <span>사진 업로드</span>
+          </label>
+          <input type="file" id="image-upload" accept="image/*" class="hidden">
+          <span id="file-name" class="text-xs text-gray-400 truncate max-w-[180px]">선택된 파일 없음</span>
+        </div>
+      </div>
+
+      <!-- 3. 테마 디자인 -->
+      <div>
+        <label class="block font-bold text-gray-700 text-sm mb-2">3. 카드 테마 디자인</label>
+        <select id="theme-select" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+          <optgroup label="✨ NEW! 힙스타 테마">
+            <option value="theme-cyber">⚡ 사이버 펑크 네온</option>
+            <option value="theme-vintage">📻 을지로 빈티지 레트로</option>
+            <option value="theme-matcha">🍵 제주 말차 라떼</option>
+            <option value="theme-candy">🍬 요정나라 솜사탕</option>
+            <option value="theme-midnight">🌙 미드나잇 은하수</option>
+            <option value="theme-cream">☁️ 생크림 코튼 밀크</option>
+            <option value="theme-coral">🍊 인간 자몽 코랄</option>
+            <option value="theme-shadow">🕶️ 올블랙 스텔스</option>
+            <option value="theme-aurora">🔮 북극 오로라 핑크</option>
+            <option value="theme-banana">🥛 바나나 우유 크림</option>
+          </optgroup>
+          <optgroup label="🌿 베이직 파스텔 테마">
+            <option value="theme-mint" selected>🌿 파스텔 세이지 민트</option>
+            <option value="theme-darknight">🌌 신비로운 밤하늘</option>
+            <option value="theme-forest">🌲 깊고 푸른 숲</option>
+            <option value="theme-sunset">🍑 말랑 피치 살구</option>
+            <option value="theme-pink">🌸 요정 벚꽃 핑크</option>
+            <option value="theme-lavender">🔮 새벽 라벤더 보라</option>
+            <option value="theme-ocean">🌊 윤슬 청사파이어</option>
+            <option value="theme-lemon">💛 레몬 크림 셔벗</option>
+            <option value="theme-silver">💿 은하수 실버</option>
+            <option value="theme-earth">🤎 대지 브론즈</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <!-- 친구 칭찬 입력란 -->
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <label class="block font-bold text-gray-700 text-sm">🔹 친구가 찾은 나의 보석</label>
+          <span id="char-count" class="text-xs text-gray-400">0 / 180자</span>
+        </div>
+        <textarea id="praise-input" rows="3" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 placeholder-gray-300" placeholder="친구들이 전해준 칭찬 구절을 예쁘게 적어보세요."></textarea>
+      </div>
+
+      <!-- 학번 및 이름 -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block font-bold text-gray-700 text-xs mb-1">내 학번</label>
+          <input type="text" id="student-id-input" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm" placeholder="예: 20101">
+        </div>
+        <div>
+          <label class="block font-bold text-gray-700 text-xs mb-1">반짝이는 내 이름</label>
+          <input type="text" id="name-input" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm" placeholder="이름 입력">
+        </div>
+      </div>
+
+      <!-- 저장 버튼 (기호 깨짐 현상 깔끔하게 정리 완료) -->
+      <button class="w-full py-4 bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2 text-base">
+        <span>📸 내 미덕 카드 사진 저장하기</span>
+      </button>
+    </section>
+
+    <!-- ② 우측 실시간 카드 프리뷰 화면 -->
+    <section class="lg:col-span-7 flex justify-center items-start">
+      <div id="card-render-area" class="card-preview theme-mint w-[380px] min-h-[580px] rounded-[2.5rem] border-[12px] p-8 flex flex-col justify-between relative bg-white">
+        
+        <div class="text-center mt-4">
+          <div id="card-english" class="text-emerald-700 font-bold tracking-widest text-xs mb-1">PERSEVERANCE</div>
+          <div id="card-title" class="text-emerald-800 text-3xl tracking-wide mb-4 font-bold">끈기</div>
+          <p id="card-description" class="text-gray-600 text-sm leading-relaxed px-2 break-keep">
+            힘들어도 도중에 포기하지 않고, 하던 일을 끝까지 해내는 단단한 마음입니다.
+          </p>
+        </div>
+
+        <div class="flex justify-center my-6">
+          <div class="w-40 h-40 bg-white/60 backdrop-blur-sm rounded-3xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center overflow-hidden shadow-inner relative">
+            <img id="card-image" class="w-full h-full object-cover hidden" alt="나를 나타내는 사진">
+            <div id="image-placeholder" class="text-center flex flex-col items-center justify-center gap-1">
+              <span id="card-emoji" class="text-7xl block">🏠</span>
+              <div id="card-char-name" class="text-xs font-bold text-gray-600 bg-white/80 px-2 py-0.5 rounded-md border border-gray-200/50 shadow-sm">집순이/집돌이</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="praise-box" class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-emerald-100/50 shadow-sm min-h-[120px] flex flex-col justify-between">
+          <div class="text-center text-[11px] text-amber-500 font-bold mb-1.5">✨ 친구가 찾은 나의 보석 ✨</div>
+          <div id="card-praise" class="text-gray-500 text-center leading-relaxed flex-grow flex items-center justify-center px-1 break-keep" style="font-size: 13px;">
+            친구들이 이곳에 남겨준 다정한 칭찬 구절을 적어줄 거예요.
+          </div>
+        </div>
+
+        <!-- 카드 내 하단 푸터 (만든이 -> 보석 주인 반영 완료) -->
+        <div id="card-footer" class="flex justify-between items-center text-base font-bold text-gray-600 mt-4 px-1">
+          <div>🎒학번: <span id="card-student-id">00000</span></div>
+          <div>✨보석 주인: <span id="card-author">나다운</span></div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 3. 실시간 인터랙션 동적 스크립트 -->
+  <script>
+    const virtueData = {
+      "배려": { english: "CARING", description: "다른 사람의 형편이나 마음을 먼저 살피고 도와주려는 마음입니다." },
+      "존중": { english: "RESPECT", description: "나와 타인의 가치를 소중히 여기고, 상대를 있는 그대로 인정하는 태도입니다." },
+      "친절": { english: "KINDNESS", description: "조건 없이 상냥한 말과 행동으로 다른 사람을 따뜻하게 대하는 마음입니다." },
+      "이해": { english: "UNDERSTANDING", description: "상대의 입장과 처지를 역지사지로 생각하며, 나와 다른 점을 받아들이는 것입니다." },
+      "나눔": { english: "GENEROSITY", description: "내가 가진 물건, 지식, 마음을 아까워하지 않고 필요한 사람과 함께 쓰는 것입니다." },
+      "용기": { english: "COURAGE", description: "무섭고 두렵더라도 해야 할 올바른 일을 위해 씩씩하게 나아가는 힘입니다." },
+      "끈기": { english: "PERSEVERANCE", description: "힘들어도 도중에 포기하지 않고, 하던 일을 끝까지 해내는 단단한 마음입니다." },
+      "인내": { english: "PATIENCE", description: "괴롭거나 화가 나는 상황 속에서도 짜증 내지 않고 꾹 참고 기다리는 힘입니다." },
+      "절제": { english: "SELF-DISCIPLINE", description: "하고 싶은 대로 다 하지 않고, 자신의 욕심이나 행동을 스스로 알맞게 조절하는 태도입니다." },
+      "열정": { english: "ENTHUSIASM", description: "배움과 활동에 기쁘게 온 정성을 다해, 주변에 밝은 희망과 에너지를 피워내는 마음입니다." },
+      "책임": { english: "RESPONSIBILITY", description: "내가 한 말과 행동을 중요하게 여기고, 나에게 맡겨진 역할을 끝까지 다하는 태도입니다." },
+      "정직": { english: "HONESTY", description: "거짓말이나 속임수 없이, 사실 그대로를 당당하고 솔직하게 말하는 태도입니다." },
+      "신뢰": { english: "TRUSTWORTHINESS", description: "말과 행동이 일치하여, 다른 사람들이 나를 믿고 의지할 수 있게 하는 것입니다." },
+      "성실": { english: "DILIGENCE", description: "누가 보지 않더라도 매일 해야 할 일을 꾸준하고 정성스럽게 해내는 자세입니다." },
+      "지혜": { english: "WISDOM", description: "무엇이 옳고 그른지 올바르게 판단하고, 문제를 현명하게 풀어가는 능력입니다." },
+      "창의": { english: "CREATIVITY", description: "뻔한 생각에서 벗어나 새롭고 독특한 아이디어를 만들어 내는 마음입니다." },
+      "겸손": { english: "HUMILITY", description: "자신의 장점을 잘난 척하지 않고, 다른 사람의 장점을 인정하며 배우려는 태도입니다." },
+      "유연성": { english: "FLEXIBILITY", description: "갑작스러운 변화나 다른 사람의 의견을 고집부리지 않고 부드럽게 받아들이는 마음입니다." },
+      "협동": { english: "COOPERATION", description: "공동의 목표를 이루기 위해 서로 힘을 모으고 함께 도우며 일하는 것입니다." },
+      "감사": { english: "GRATITUDE", description: "주변의 고마운 일과 사소한 기쁨을 찾아내어 고마운 마음을 표현하는 것입니다." },
+      "정의": { english: "JUSTICE", description: "어느 한쪽으로 치우치지 않고 모두에게 공평하며, 올바른 규칙을 지키는 태도입니다." },
+      "관용": { english: "TOLERANCE", description: "타인의 실수나 나와 다른 의견을 너그럽게 이해하고 용서해 주는 넓은 마음입니다." },
+      "평화": { english: "PEACEFULNESS", description: "싸움이나 갈등 없이 마음을 차분하게 유지하며 주변과 조화롭게 지내는 상태입니다." },
+      "긍정": { english: "POSITIVITY", description: "어려움 속에서도 좋은 점을 찾아내어, 내일의 희망을 이야기하는 마음입니다." }
+    };
+
+    const themeStyles = {
+      "theme-mint": { englishColor: "text-emerald-700", titleColor: "text-emerald-800", descColor: "text-gray-600", footerColor: "text-gray-600", praiseBoxBg: "bg-white/80", praiseTextColor: "text-gray-500" },
+      "theme-darknight": { englishColor: "text-indigo-300", titleColor: "text-white", descColor: "text-indigo-100", footerColor: "text-indigo-200", praiseBoxBg: "bg-black/40", praiseTextColor: "text-indigo-100" },
+      "theme-forest": { englishColor: "text-emerald-300", titleColor: "text-white", descColor: "text-emerald-100", footerColor: "text-emerald-200", praiseBoxBg: "bg-black/40", praiseTextColor: "text-emerald-100" },
+      "theme-sunset": { englishColor: "text-orange-700", titleColor: "text-orange-800", descColor: "text-gray-700", footerColor: "text-gray-700", praiseBoxBg: "bg-white/80", praiseTextColor: "text-gray-600" },
+      "theme-pink": { englishColor: "text-pink-700", titleColor: "text-pink-800", descColor: "text-gray-600", footerColor: "text-gray-600", praiseBoxBg: "bg-white/80", praiseTextColor: "text-gray-500" },
+      "theme-lavender": { englishColor: "text-purple-700", titleColor: "text-purple-800", descColor: "text-gray-600", footerColor: "text-gray-600", praiseBoxBg: "bg-white/80", praiseTextColor: "text-gray-500" },
+      "theme-ocean": { englishColor: "text-sky-700", titleColor: "text-sky-800", descColor: "text-gray-600", footerColor: "text-gray-600", praiseBoxBg: "bg-white/80", praiseTextColor: "text-gray-500" },
+      "theme-lemon": { englishColor: "text-yellow-700", titleColor: "text-yellow-800", descColor: "text-gray-700", footerColor: "text-gray-600", praiseBoxBg: "bg-white/80", praiseTextColor: "text-gray-600" },
+      "theme-silver": { englishColor: "text-slate-600", titleColor: "text-slate-800", descColor: "text-slate-600", footerColor: "text-slate-500", praiseBoxBg: "bg-white/80", praiseTextColor: "text-slate-500" },
+      "theme-earth": { englishColor: "text-stone-700", titleColor: "text-stone-800", descColor: "text-stone-600", footerColor: "text-stone-500", praiseBoxBg: "bg-white/80", praiseTextColor: "text-stone-600" },
+      "theme-cyber": { englishColor: "text-rose-400", titleColor: "text-white", descColor: "text-slate-300", footerColor: "text-slate-400", praiseBoxBg: "bg-slate-900/80", praiseTextColor: "text-rose-100" },
+      "theme-vintage": { englishColor: "text-amber-800", titleColor: "text-stone-800", descColor: "text-stone-600", footerColor: "text-stone-500", praiseBoxBg: "bg-white/70", praiseTextColor: "text-stone-700" },
+      "theme-matcha": { englishColor: "text-lime-700", titleColor: "text-lime-900", descColor: "text-stone-600", footerColor: "text-stone-500", praiseBoxBg: "bg-white/80", praiseTextColor: "text-stone-600" },
+      "theme-candy": { englishColor: "text-pink-600", titleColor: "text-purple-800", descColor: "text-purple-950/70", footerColor: "text-purple-600", praiseBoxBg: "bg-white/60", praiseTextColor: "text-purple-900" },
+      "theme-midnight": { englishColor: "text-fuchsia-300", titleColor: "text-white", descColor: "text-fuchsia-100", footerColor: "text-purple-200", praiseBoxBg: "bg-black/50", praiseTextColor: "text-fuchsia-500" },
+      "theme-cream": { englishColor: "text-slate-400", titleColor: "text-slate-800", descColor: "text-slate-500", footerColor: "text-slate-400", praiseBoxBg: "bg-slate-50", praiseTextColor: "text-slate-600" },
+      "theme-coral": { englishColor: "text-orange-600", titleColor: "text-orange-950", descColor: "text-stone-600", footerColor: "text-stone-500", praiseBoxBg: "bg-white/80", praiseTextColor: "text-stone-700" },
+      "theme-shadow": { englishColor: "text-gray-400", titleColor: "text-gray-100", descColor: "text-gray-400", footerColor: "text-gray-500", praiseBoxBg: "bg-gray-900", praiseTextColor: "text-gray-300" },
+      "theme-aurora": { englishColor: "text-pink-600", titleColor: "text-sky-900", descColor: "text-sky-950/70", footerColor: "text-sky-700", praiseBoxBg: "bg-white/70", praiseTextColor: "text-sky-900" },
+      "theme-banana": { englishColor: "text-yellow-800", titleColor: "text-yellow-950", descColor: "text-amber-900/70", footerColor: "text-amber-800", praiseBoxBg: "bg-white/80", praiseTextColor: "text-amber-900" }
+    };
+
+    const virtueSelect = document.getElementById('virtue-select');
+    const imageUpload = document.getElementById('image-upload');
+    const fileName = document.getElementById('file-name');
+    const themeSelect = document.getElementById('theme-select');
+    const praiseInput = document.getElementById('praise-input');
+    const charCount = document.getElementById('char-count');
+    const studentIdInput = document.getElementById('student-id-input');
+    const nameInput = document.getElementById('name-input');
+
+    const cardRenderArea = document.getElementById('card-render-area');
+    const cardEnglish = document.getElementById('card-english');
+    const cardTitle = document.getElementById('card-title');
+    const cardDescription = document.getElementById('card-description');
+    const cardImage = document.getElementById('card-image');
+    const imagePlaceholder = document.getElementById('image-placeholder');
+    const cardEmoji = document.getElementById('card-emoji');
+    const cardCharName = document.getElementById('card-char-name');
+    const praiseBox = document.getElementById('praise-box');
+    const cardPraise = document.getElementById('card-praise');
+    const cardStudentId = document.getElementById('card-student-id');
+    const cardAuthor = document.getElementById('card-author');
+    const cardFooter = document.getElementById('card-footer');
+
+    // 미덕 변경
+    virtueSelect.addEventListener('change', (e) => {
+      const selected = e.target.value;
+      if(virtueData[selected]) {
+        cardTitle.textContent = selected;
+        cardEnglish.textContent = virtueData[selected].english;
+        cardDescription.textContent = virtueData[selected].description;
+      }
+    });
+
+    // 캐릭터 변경 프리셋
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.char-btn');
+      if (!btn) return;
+      
+      document.querySelectorAll('.char-btn').forEach(b => {
+        b.classList.remove('border-amber-400', 'bg-amber-50');
+        b.classList.add('border-gray-200', 'bg-gray-50');
+      });
+      btn.classList.add('border-amber-400', 'bg-amber-50');
+      btn.classList.remove('border-gray-200', 'bg-gray-50');
+
+      const emoji = btn.getAttribute('data-char');
+      const nameText = btn.innerText.replace(emoji, '').trim();
+
+      cardEmoji.textContent = emoji;
+      cardCharName.textContent = nameText;
+      
+      cardImage.classList.add('hidden');
+      imagePlaceholder.classList.remove('hidden');
+      imageUpload.value = "";
+      fileName.textContent = "선택된 파일 없음";
+    });
+
+    // 사진 이미지 파일 로드
+    imageUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        fileName.textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          cardImage.src = event.target.result;
+          cardImage.classList.remove('hidden');
+          imagePlaceholder.classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // 테마 체인저 
+    themeSelect.addEventListener('change', (e) => {
+      const currentTheme = e.target.value;
+      const style = themeStyles[currentTheme];
+
+      cardRenderArea.className = `card-preview ${currentTheme} w-[380px] min-h-[580px] rounded-[2.5rem] border-[12px] p-8 flex flex-col justify-between relative`;
+      
+      if(style) {
+        cardEnglish.className = `${style.englishColor} font-bold tracking-widest text-xs mb-1`;
+        cardTitle.className = `${style.titleColor} text-3xl tracking-wide mb-4 font-bold`;
+        cardDescription.className = `${style.descColor} text-sm leading-relaxed px-2 break-keep`;
+        cardFooter.className = `flex justify-between items-center text-base font-bold ${style.footerColor} mt-4 px-1`;
+        praiseBox.className = `${style.praiseBoxBg} backdrop-blur-sm rounded-2xl p-4 border border-emerald-100/50 shadow-sm min-h-[120px] flex flex-col justify-between`;
+        cardPraise.className = `${style.praiseTextColor} text-center leading-relaxed flex-grow flex items-center justify-center px-1 break-keep`;
+      }
+    });
+
+    // 실시간 칭찬 인풋 바인딩
+    praiseInput.addEventListener('input', (e) => {
+      const text = e.target.value;
+      charCount.textContent = `${text.length} / 180자`;
+      cardPraise.textContent = text || "친구들이 이곳에 남겨준 다정한 칭찬 구절을 적어줄 거예요.";
+    });
+
+    studentIdInput.addEventListener('input', (e) => cardStudentId.textContent = e.target.value || "00000");
+    nameInput.addEventListener('input', (e) => cardAuthor.textContent = e.target.value || "나다운");
+  </script>
+</body>
+</html>
